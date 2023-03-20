@@ -21,3 +21,7 @@ Features of Enovate Token:
 Minting: Enovate Tokens can be minted by users who have been granted the 'MINTER_ROLE' by the contract administrator. The minted tokens are added to the total supply of Enovate Tokens and can be used for any purpose.
 Burning: Enovate Tokens can be burned by users who have been granted the 'BURNER_ROLE' by the contract administrator. The burned tokens are removed from the total supply of Enovate Tokens and cannot be used again.
 Role-based access control: The contract administrator can grant
+
+
+
+
