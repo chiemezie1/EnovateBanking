@@ -1,0 +1,22 @@
+{
+  "name": "enovatebanking",
+  "version": "1.0.0",
+  "description": "A Blockchain based banking system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chiemezie1/EnovateBanking.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chiemezie1/EnovateBanking/issues"
+  },
+  "homepage": "https://github.com/chiemezie1/EnovateBanking#readme",
+  "devDependencies": {
+    "hardhat": "^2.13.0"
+  }
+}
