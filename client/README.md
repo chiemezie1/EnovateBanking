@@ -26,3 +26,12 @@ View information about ongoing and completed rides, including pickup and dropoff
 
 #Contact
 If you have any questions or issues regarding this frontend, please don't hesitate to contact me.
+
+
+
+EnovateToken deployed to: 0x69f0A79A1b25e9BF85A8a01479b779D55bE53752
+EnovateBank deployed to: 0xdC540D48f441efE6bfD953671e2459c8DDb27F5e
+
+
+
+npx hardhat run scripts/deploy.js --network goerli

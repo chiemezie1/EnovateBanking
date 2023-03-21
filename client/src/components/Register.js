@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import CarRide from "../contract/CarRide.json";
+import CarRide from "../contract/EnovateBank.json";
 import Navbar from "./Navbar";
 
 function Register() {

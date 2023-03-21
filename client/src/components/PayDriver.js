@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import CarRide from "../contract/CarRide.json";
+import CarRide from "../contract/EnovateBank.json";
 
 const { ethers } = require("ethers");
 

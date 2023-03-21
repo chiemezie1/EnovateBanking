@@ -24,4 +24,8 @@ Role-based access control: The contract administrator can grant
 
 
 
+EnovateBank npx hardhat run scripts/deployToken.js --network goerli
+EnovateBank 0x038b7F17c5544219764D3c3CaD3F7c1ced505F61
 
+EnovateToken npx hardhat run scripts/deployBank.js --network goerli
+EnovateToken 0x2C90F8Ca22035d127dCCcC51aAED7423aa192175
