@@ -9,7 +9,7 @@ import {
 import About from './components/About';
 import Home from './components/Home';
 import Profile from './components/Profile';
-import Register from './components/Register';
+//import Register from './components/Register';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -19,7 +19,6 @@ root.render(
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/About" element={<About />}/> 
-        <Route path='/Register' element={<Register/>}/>
         <Route path="/About/:tokenId" element={<About />}/>        
         <Route path="/profile" element={<Profile />}/>
       </Routes>
