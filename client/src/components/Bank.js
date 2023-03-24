@@ -1,74 +1,147 @@
-import React, { useState } from "react";
-import { ethers } from "ethers";
-import EnovateToken from "../artifacts/contracts/EnovateToken.sol/EnovateToken.json";
+import { useState, useEffect } from "react";
+import EnovateToken from "../contract/EnovateToken.json";
 
-const EnovateTokenContractAddress = "<your contract address here>";
-const EnovateTokenAbi = EnovateToken.abi;
 
-function EnovateTokenForm() {
-  const [provider, setProvider] = useState(null);
-  const [contract, setContract] = useState(null);
-  const [account, setAccount] = useState(null);
-  const [amount, setAmount] = useState(0);
+function Profile() {
+  const [ethBalance, setETHBalance] = useState("");
+  const [totalInterest, setTotalInterest] = useState("");
+  const [enovateToken, setEnovateToken] = useState("");
+  const [contractEtherBalance, setContractEtherBalance] = useState("");
+  const [depositAmount, setDepositAmount] = useState("");
+  const [withdrawAmount, setWithdrawAmount] = useState("");
+  const [borrowAmount, setBorrowAmount] = useState("");
+  const [payoffAmount, setPayOffAmount] = useState("");
 
-  const connectWallet = async () => {
-    if (window.ethereum) {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const accounts = await provider.listAccounts();
-      setProvider(provider);
-      setAccount(accounts[0]);
-      const signer = provider.getSigner();
-      const contract = new ethers.Contract(
-        EnovateTokenContractAddress,
-        EnovateTokenAbi,
-        signer
-      );
-      setContract(contract);
-    } else {
-      alert("Please install Metamask to use this feature");
-    }
-  };
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const ethBalance = await getETHBalanceOf();
+  //     const totalInterest = await getTotalInterest();
+  //     const enovateToken = await getEnovateToken();
+  //     const contractEtherBalance = await getContractEtherBalance();
+  //     setETHBalance(ethBalance);
+  //     setTotalInterest(totalInterest);
+  //     setEnovateToken(enovateToken);
+  //     setContractEtherBalance(contractEtherBalance);
+  //   }
+  //   fetchData();
+  // }, []);
 
-  const handleAmountChange = (event) => {
-    setAmount(event.target.value);
-  };
+  async function handleDeposit() {
+    // handle deposit logic
+  }
 
-  const handleMint = async () => {
-    try {
-      const tx = await contract.mint(account, amount);
-      await tx.wait();
-      alert(`Minted ${amount} EnovateToken successfully!`);
-    } catch (error) {
-      console.log(error);
-      alert("Failed to mint EnovateToken");
-    }
-  };
+  async function handleWithdraw() {
+    // handle withdraw logic
+  }
 
-  const handleBurn = async () => {
-    try {
-      const tx = await contract.burn(account, amount);
-      await tx.wait();
-      alert(`Burned ${amount} EnovateToken successfully!`);
-    } catch (error) {
-      console.log(error);
-      alert("Failed to burn EnovateToken");
-    }
-  };
+  async function handleBorrow() {
+    // handle borrow logic
+  }
+
+  async function handlePayoff() {
+    // handle payoff logic
+  }
 
   return (
-    <div>
-      {account ? (
-        <div>
-          <p>Connected account: {account}</p>
-          <input type="number" value={amount} onChange={handleAmountChange} />
-          <button onClick={handleMint}>Mint EnovateToken</button>
-          <button onClick={handleBurn}>Burn EnovateToken</button>
+    <div className="flex flex-col bg-gray-600 items-center justify-center h-screen">
+      <div className="flex flex-wrap justify-center max-w-3xl">
+        <div className="w-full sm:w-1/2 md:w-1/4 p-4">
+          <div className="bg-white border shadow rounded-lg p-6">
+            <div className="text-gray-500 mb-2">ETH Balance</div>
+            <div className="font-bold text-xl">{ethBalance}</div>
+          </div>
         </div>
-      ) : (
-        <button onClick={connectWallet}>Connect Wallet</button>
-      )}
+        <div className="w-full sm:w-1/2 md:w-1/4 p-4">
+          <div className="bg-white border shadow rounded-lg p-6">
+            <div className="text-gray-500 mb-2">Total Interest</div>
+            <div className="font-bold text-xl">{totalInterest}</div>
+          </div>
+        </div>
+        <div className="w-full sm:w-1/2 md:w-1/4 p-4">
+          <div className="bg-white border shadow rounded-lg p-6">
+            <div className="text-gray-500 mb-2">Enovate Token</div>
+            <div className="font-bold text-xl">{enovateToken}</div>
+          </div>
+        </div>
+        <div className="w-full sm:w-1/2 md:w-1/4 p-4">
+          <div className="bg-white border shadow rounded-lg p-6">
+            <div className="text-gray-500 mb-2">Contract Ether Balance</div>
+            <div className="font-bold text-xl">{contractEtherBalance}</div>
+          </div>
+        </div>
+        <div className="w-full sm:w-1/2 md:w-1/2 p-4">
+          <div className="bg-white border shadow rounded-lg p-6">
+            <div className="text-gray-500 mb-2">Deposit ETH</div>
+            <input
+              className="border rounded-lg py-2 px-3 w-full mb-4"
+              type="number"
+              step="any"
+              placeholder="0"
+              value={depositAmount}
+              onChange={(e) => setDepositAmount(e.target.value)}
+            />
+            <button
+              className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4"
+              onClick={handleDeposit}
+            >
+              Deposit
+            </button>
+          </div>{" "}
+          <div className="bg-white border shadow rounded-lg p-6">
+            <div className="text-gray-500 mb-2">Withdraw ETH</div>
+            <input
+              className="border rounded-lg py-2 px-3 w-full mb-4"
+              type="number"
+              step="any"
+              placeholder="0"
+              value={withdrawAmount}
+              onChange={(e) => setWithdrawAmount(e.target.value)}
+            />
+            <button
+              className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4"
+              onClick={handleWithdraw}
+            >
+              Withdraw
+            </button>
+          </div>
+          <div className="bg-white border shadow rounded-lg p-6">
+            <div className="text-gray-500 mb-2">Borrow</div>
+            <input
+              className="border rounded-lg py-2 px-3 w-full mb-4"
+              type="number"
+              step="any"
+              placeholder="0"
+              value={borrowAmount}
+              onChange={(e) => setBorrowAmount(e.target.value)}
+            />
+            <button
+              className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4"
+              onClick={handleBorrow}
+            >
+              Borrow
+            </button>
+          </div>
+          <div className="bg-white border shadow rounded-lg p-6">
+            <div className="text-gray-500 mb-2">Pay off</div>
+            <input
+              className="border rounded-lg py-2 px-3 w-full mb-4"
+              type="number"
+              step="any"
+              placeholder="0"
+              value={payoffAmount}
+              onChange={(e) => setPayOffAmount(e.target.value)}
+            />
+            <button
+              className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4"
+              onClick={handlePayoff}
+            >
+              Pay off
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
-export default EnovateTokenForm;
+export default Profile;

@@ -1,137 +1,3 @@
-// import React, { useState, useEffect } from "react";
-// import CarRide from "../contract/EnovateToken.json";
-// import Navbar from "./Navbar";
-// import Footer from "./footer";
-
-// const { ethers } = require("ethers");
-
-// function Profile() {
-//   return (
-//     <div>
-//       <Navbar />
-//       <div className="flex flex-col items-center justify-center h-screen">
-//         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-//           Login
-//         </button>
-//         <div className="mt-4">
-//           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-//             Admin Login
-//           </button>
-//         </div>
-//       </div>
-//       <Footer />
-//     </div>
-//   );
-// }
-// export default Profile;
-
-// import React, { useState, useEffect } from "react";
-// import EnovateToken from "../contract/EnovateToken.json";
-// import Navbar from "./Navbar";
-// import Footer from "./footer";
-
-// const { ethers } = require("ethers");
-
-// function Profile() {
-//   const [userAddress, setUserAddress] = useState("");
-//   const [contract, setContract] = useState(null);
-//   const [isAdmin, setIsAdmin] = useState(false);
-
-//   useEffect(() => {
-//     async function connectToBlockchain() {
-//       // Connect to provider
-//       const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-//       // Request access to user's accounts
-//       await window.ethereum.enable();
-
-//       // Get user's address
-//       const signer = provider.getSigner();
-//       const address = await signer.getAddress();
-//       setUserAddress(address);
-
-//       // Load contract
-  
-//       const enovateToken = new ethers.Contract(EnovateToken.contract, EnovateToken.abi, signer);
-//       setContract(enovateToken);
-
-//       // Check if user is admin
-//       const isAdmin = await enovateToken.hasRole(enovateToken.DEFAULT_ADMIN_ROLE, address);
-//       setIsAdmin(isAdmin);
-      
-//   // Grant admin role to the provided address
-//   const adminAddress = "0xdC540D48f441efE6bfD953671e2459c8DDb27F5e";
-//   const grantRoleTx = await enovateToken.grantRole(enovateToken.DEFAULT_ADMIN_ROLE, adminAddress);
-//   await grantRoleTx.wait();
-//     }
-
-//     connectToBlockchain();
-//   }, []);
-
-//   async function handleMint() {
-//     // Mint 100 tokens to the user
-//     await contract.mint(userAddress, 100);
-//   }
-
-//   async function handleBurn() {
-//     // Burn 100 tokens from the user
-//     await contract.burn(userAddress, 100);
-//   }
-
-//   return (
-//     <div>
-//       <Navbar />
-//       <div className="flex flex-col items-center justify-center h-screen">
-//         <h1 className="text-2xl font-bold mb-4">Profile</h1>
-//         {isAdmin ? (
-//           <div>
-//             <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-4" onClick={handleMint}>
-//               Mint
-//             </button>
-//             <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={handleBurn}>
-//               Burn
-//             </button>
-//           </div>
-//         ) : (
-//           <p className="text-red-500">Sorry, you are not approved as an admin.</p>
-//         )}
-//       </div>
-//       <Footer />
-//     </div>
-//   );
-// }
-
-// export default Profile;
-
-
-
-// import React, { useState, useEffect } from "react";
-// import CarRide from "../contract/EnovateToken.json";
-// import Navbar from "./Navbar";
-// import Footer from "./footer";
-
-// const { ethers } = require("ethers");
-
-// function Profile() {
-//   return (
-//     <div>
-//       <Navbar />
-//       <div className="flex flex-col items-center justify-center h-screen">
-//         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-//           Login
-//         </button>
-//         <div className="mt-4">
-//           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-//             Admin Login
-//           </button>
-//         </div>
-//       </div>
-//       <Footer />
-//     </div>
-//   );
-// }
-// export default Profile;
-
 import React, { useState, useEffect } from "react";
 import EnovateToken from "../contract/EnovateToken.json";
 import Navbar from "./Navbar";
@@ -140,101 +6,114 @@ import Footer from "./footer";
 const { ethers } = require("ethers");
 
 function Profile() {
-  const [userAddress, setUserAddress] = useState("");
-  const [contract, setContract] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [mintValue, setMintValue] = useState("");
+  const [mintAdress, setMintAdress] = useState("");
   const [burnValue, setBurnValue] = useState("");
-  const [grantValue, setGrantValue] = useState("");
-  const [revokeValue, setRevokeValue] = useState("");
+  const [burnAdress, setBurnAdress] = useState("");
+  const [grantAddress, setGrantAddress] = useState("");
+  const [revokeAddress, setRevokeAddress] = useState("");
   const [mintSuccess, setMintSuccess] = useState(false);
   const [burnSuccess, setBurnSuccess] = useState(false);
   const [grantSuccess, setGrantSuccess] = useState(false);
   const [revokeSuccess, setRevokeSuccess] = useState(false);
 
+  const [provider, setProvider] = useState(null);
+  const [signer, setSigner] = useState(null);
+
   useEffect(() => {
-    async function connectToBlockchain() {
-      // Connect to provider
+    async function loadProvider() {
+      // load provider (example: using metamask)
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-      // Request access to user's accounts
-      await window.ethereum.enable();
-
-      // Get user's address
       const signer = provider.getSigner();
-      const address = await signer.getAddress();
-      setUserAddress(address);
-
-      // Load contract
-      const enovateToken = new ethers.Contract(
-        EnovateToken.contract,
-        EnovateToken.abi,
-        signer
-      );
-      setContract(enovateToken);
-
-      // Check if user is admin
-      const isAdmin = await enovateToken.hasRole(
-        enovateToken.DEFAULT_ADMIN_ROLE,
-        address
-      );
-      setIsAdmin(isAdmin);
+      setProvider(provider);
+      setSigner(signer);
     }
-
-    connectToBlockchain();
+    if (window.ethereum) {
+      loadProvider();
+    } else {
+      console.error(
+        "Non-Ethereum browser detected. You should consider trying MetaMask!"
+      );
+    }
   }, []);
 
   async function handleMint() {
+    if (!provider || !signer) {
+      alert("Please connect to Ethereum network");
+      return;
+    }
+    const contract = new ethers.Contract(
+      EnovateToken.address,
+      EnovateToken.abi,
+      signer
+    );
     try {
-      // Mint tokens to the user
-      const mintAmount = ethers.utils.parseEther(mintValue);
-      await contract.mint(userAddress, mintAmount);
-
-      // Reset input value and show success message
-      setMintValue("");
+      const tx = await contract.mint(mintAdress, mintValue);
+      await tx.wait();
       setMintSuccess(true);
     } catch (error) {
       console.error(error);
+      alert("Error: " + error.message);
     }
   }
 
   async function handleBurn() {
+    if (!provider || !signer) {
+      alert("Please connect to Ethereum network");
+      return;
+    }
+    const contract = new ethers.Contract(
+      EnovateToken.address,
+      EnovateToken.abi,
+      signer
+    );
     try {
-      // Burn tokens from the user
-      const burnAmount = ethers.utils.parseEther(burnValue);
-      await contract.burn(userAddress, burnAmount);
-
-      // Reset input value and show success message
-      setBurnValue("");
+      const tx = await contract.burnFrom(burnAdress, burnValue);
+      await tx.wait();
       setBurnSuccess(true);
     } catch (error) {
       console.error(error);
+      alert("Error: " + error.message);
     }
   }
 
   async function handleGrantMinterRole() {
+    if (!provider || !signer) {
+      alert("Please connect to Ethereum network");
+      return;
+    }
+    const contract = new ethers.Contract(
+      EnovateToken.address,
+      EnovateToken.abi,
+      signer
+    );
     try {
-      // Grant minter role to an address
-      await contract.grantRole(contract.MINTER_ROLE, grantValue);
-
-      // Reset input value and show success message
-      setGrantValue("");
+      const tx = await contract.grantMinterRole(grantAddress);
+      await tx.wait();
       setGrantSuccess(true);
     } catch (error) {
       console.error(error);
+      alert("Error: " + error.message);
     }
   }
 
   async function handleRevokeMinterRole() {
+    if (!provider || !signer) {
+      alert("Please connect to Ethereum network");
+      return;
+    }
+    const contract = new ethers.Contract(
+      EnovateToken.address,
+      EnovateToken.abi,
+      signer
+    );
     try {
-      // Revoke minter role from an address
-      await contract.revokeRole(contract.MINTER_ROLE, revokeValue);
-
-      // Reset input value and show success message
-      setRevokeValue("");
+      const tx = await contract.revokeMinterRole(revokeAddress);
+      await tx.wait();
       setRevokeSuccess(true);
     } catch (error) {
       console.error(error);
+      alert("Error: " + error.message);
     }
   }
 
@@ -254,12 +133,25 @@ function Profile() {
                   htmlFor="mintAmount"
                   className="block text-gray-700 font-bold mb-2"
                 >
+                   Address to mint (ENVT)
+                </label>
+                <input
+                  id="mintAdress"
+                  type="text" 
+                  value={mintAdress} 
+                  onChange={(e) => setMintAdress(e.target.value)}
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+                <label
+                  htmlFor="mintAmount"
+                  className="block text-gray-700 font-bold mb-2"
+                >
                   Amount to mint (ENVT)
                 </label>
                 <input
-                  id="mintAmount"
+                  id="mintValue"
                   type="number"
-                  value={mintValue}
+                  value={mintValue} 
                   onChange={(e) => setMintValue(e.target.value)}
                   className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
@@ -285,12 +177,25 @@ function Profile() {
                   htmlFor="burnAmount"
                   className="block text-gray-700 font-bold mb-2"
                 >
-                  Amount to burn (ENVT)
+                  Address to burn (ENVT)
                 </label>
                 <input
                   id="burnAmount"
+                  type="text" 
+                  value={burnAdress}
+                  onChange={(e) => setBurnAdress(e.target.value)}
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+                <label
+                  htmlFor="mintAmount"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Amount to burn (ENVT)
+                </label>
+                <input
+                  id="burnAdress"
                   type="number"
-                  value={burnValue}
+                  value={burnAdress} burnValue
                   onChange={(e) => setBurnValue(e.target.value)}
                   className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
@@ -321,8 +226,8 @@ function Profile() {
                 <input
                   id="grantAddress"
                   type="text"
-                  value={grantValue}
-                  onChange={(e) => setGrantValue(e.target.value)}
+                  value={grantAddress}
+                  onChange={(e) => setGrantAddress(e.target.value)}
                   className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
               </div>
@@ -352,8 +257,8 @@ function Profile() {
                 <input
                   id="revokeAddress"
                   type="text"
-                  value={revokeValue}
-                  onChange={(e) => setRevokeValue(e.target.value)}
+                  value={revokeAddress}
+                  onChange={(e) => setRevokeAddress(e.target.value)}
                   className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
               </div>
